@@ -1,0 +1,97 @@
+{
+  "name": "@moku-systems/inpost-international",
+  "version": "0.1.0",
+  "description": "Unofficial TypeScript SDK for InPost International API (developers.inpost-group.com)",
+  "keywords": [
+    "inpost",
+    "international",
+    "shipping",
+    "courier",
+    "parcel",
+    "paczkomat",
+    "logistics",
+    "api",
+    "sdk",
+    "typescript",
+    "unofficial"
+  ],
+  "private": true,
+  "author": {
+    "name": "Moku Systems",
+    "email": "support@moku-systems.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moku-systems/inpost-international.git"
+  },
+  "bugs": {
+    "url": "https://github.com/moku-systems/inpost-international/issues"
+  },
+  "homepage": "https://github.com/moku-systems/inpost-international#readme",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./types": {
+      "require": "./dist/cjs/types/index.js",
+      "import": "./dist/esm/types/index.js",
+      "types": "./dist/types/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:esm": "tsc --project tsconfig. esm.json",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist/types",
+    "clean": "rimraf dist coverage",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPatterns=unit",
+    "test:integration": "jest --testPathPatterns=integration",
+    "lint": "eslint src --ext . ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*. ts\"",
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck && npm run lint && npm run test",
+    "prepublishOnly": "npm run validate && npm run build"
+  },
+  "dependencies": {
+    "axios": "^1.13.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.3",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "jest": "^30.2.0",
+    "prettier": "^3.7.4",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.50.1"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=11.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
