@@ -1,13 +1,15 @@
 /**
  * InPost API hosts configuration
  *
- * @see https://developers.inpost-group.com/previous
+ * @see https://dokumentacja-inpost.atlassian.net/wiki/spaces/PL/pages/18153476/API+ShipX+ENG+Documentation
  */
 
 export const INPOST_HOSTS = {
-  sandbox: 'https://sandbox-api.inpost-group.com',
-  production: 'https://api.inpost-group.com',
+  sandbox: 'https://sandbox-api-shipx-pl.easypack24.net',
+  production: 'https://api-shipx-pl.easypack24.net',
 } as const;
+
+export const BASE_PATH = '/v1';
 
 export type InPostEnvironment = keyof typeof INPOST_HOSTS;
 
@@ -27,18 +29,18 @@ export function getHost(environment: InPostEnvironment): string {
 }
 
 /**
- * Build full URL for InPost API
+ * Build full URL for InPost ShipX API
  *
  * @example
  * ```typescript
- * buildUrl('sandbox', '/auth/token')
- * // Returns: 'https://sandbox-api.inpost-group.com/auth/token'
+ * buildUrl('sandbox', '/points')
+ * // Returns: 'https://sandbox-api-shipx-pl.easypack24.net/v1/points'
  * ```
  */
 export function buildUrl(
   environment: InPostEnvironment,
-  endpoint: string
+  endpoint: string,
 ): string {
   const host = getHost(environment);
-  return `${host}${endpoint}`;
+  return `${host}${BASE_PATH}${endpoint}`;
 }

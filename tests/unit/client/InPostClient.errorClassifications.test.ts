@@ -1,4 +1,3 @@
-// tests/unit/client/InPostClient.errorClassifications.test.ts
 import { createAxiosError, expectAPIError, setupTestContext } from './helpers';
 
 jest.mock('axios');
@@ -8,18 +7,6 @@ describe('InPostClient – Error classifications', () => {
   const ctx = setupTestContext();
 
   it.each([
-    {
-      status: 401,
-      statusText: 'Unauthorized',
-      message: 'Unauthorized access to InPost API.',
-      property: 'isAuthError' as const,
-    },
-    {
-      status: 403,
-      statusText: 'Forbidden',
-      message: 'Unauthorized access to InPost API.',
-      property: 'isAuthError' as const,
-    },
     {
       status: 404,
       statusText: 'Not Found',

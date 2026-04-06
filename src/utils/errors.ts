@@ -11,7 +11,6 @@ export class InPostAPIError extends InPostError {
   public readonly statusCode: number;
   public readonly response: ErrorData;
   public readonly requestId?: string;
-  private static readonly AUTH_ERRORS = [401, 403];
   private static readonly SERVER_ERRORS = [500, 502, 503, 504];
 
   constructor(
@@ -30,10 +29,6 @@ export class InPostAPIError extends InPostError {
 
   get isBadRequestError(): boolean {
     return this.statusCode === 400;
-  }
-
-  get isAuthError(): boolean {
-    return InPostAPIError.AUTH_ERRORS.includes(this.statusCode);
   }
 
   get isNotFoundError(): boolean {

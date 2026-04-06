@@ -1,10 +1,10 @@
 {
-  "name": "@moku-systems/inpost-international",
+  "name": "@moku-systems/inpost-shipx",
   "version": "0.1.0",
-  "description": "Unofficial TypeScript SDK for InPost International API (developers.inpost-group.com)",
+  "description": "Unofficial TypeScript SDK for InPost ShipX API (developers.inpost-group.com)",
   "keywords": [
     "inpost",
-    "international",
+    "shipx",
     "shipping",
     "courier",
     "parcel",
@@ -23,12 +23,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/moku-systems/inpost-international.git"
+    "url": "https://github.com/moku-systems/inpost-shipx.git"
   },
   "bugs": {
-    "url": "https://github.com/moku-systems/inpost-international/issues"
+    "url": "https://github.com/moku-systems/inpost-shipx/issues"
   },
-  "homepage": "https://github.com/moku-systems/inpost-international#readme",
+  "homepage": "https://github.com/moku-systems/inpost-shipx#readme",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -74,17 +74,16 @@
     "axios": "^1.13.6"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@types/node": "^25.0.3",
-    "eslint": "^9.39.2",
+    "@types/node": "^25.5.2",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "jest": "^30.2.0",
-    "prettier": "^3.7.4",
-    "ts-jest": "^29.4.6",
+    "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^30.3.0",
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.50.1"
+    "typescript-eslint": "^8.58.0"
   },
   "engines": {
     "node": ">=22.0.0",
