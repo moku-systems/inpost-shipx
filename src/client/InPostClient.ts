@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios';
-import type { InPostConfig } from '../types/common';
+import type { ShipXConfig } from '../types/config';
 import { AuthManager } from '../auth/AuthManager';
 import { DEFAULT_CONFIG, RETRY_CONFIG } from '../utils/config/defaults';
 import { buildUrl } from '../utils/api';
@@ -15,7 +15,7 @@ export class InPostClient {
   private readonly retryableStatusCodes: readonly number[];
   private readonly retryableHttpMethods: readonly string[];
 
-  constructor(config: InPostConfig) {
+  constructor(config: ShipXConfig) {
     this.authManager = new AuthManager(config);
     this.environment = config.environment;
     this.maxRetries = config.maxRetries ?? RETRY_CONFIG.maxRetries;
@@ -71,16 +71,6 @@ export class InPostClient {
           retryCount = isNaN(parsedRetryCountHeader)
             ? 0
             : parsedRetryCountHeader;
-        }
-
-        // Handle 401 (token expired during request) - retry once after refreshing token
-        if (status === 401 && retryCount === 0) {
-          this.authManager.clearToken();
-
-          config.headers = config.headers || {};
-          config.headers['x-retry-count'] = '1';
-          // Retry with new token
-          return this.httpClient.request(config);
         }
 
         if (
