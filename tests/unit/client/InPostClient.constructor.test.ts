@@ -1,4 +1,4 @@
-// tests/unit/client/InPostClient.constructor.test.ts
+import { jest, describe, expect, it } from '@jest/globals';
 import { InPostClient } from '../../../src/client/InPostClient';
 import { INPOST_HOSTS } from '../../../src/utils/api';
 import {
@@ -16,7 +16,7 @@ describe('InPostClient – constructor', () => {
   it('should create axios instance with correct baseURL (sandbox)', () => {
     expect(mockedAxios.create).toHaveBeenCalledWith(
       expect.objectContaining({
-        baseURL: INPOST_HOSTS['sandbox'],
+        baseURL: `${INPOST_HOSTS['sandbox']}/v1`,
         timeout: 30000,
       }),
     );
@@ -29,7 +29,7 @@ describe('InPostClient – constructor', () => {
 
     expect(mockedAxios.create).toHaveBeenCalledWith(
       expect.objectContaining({
-        baseURL: INPOST_HOSTS['production'],
+        baseURL: `${INPOST_HOSTS['production']}/v1`,
       }),
     );
   });

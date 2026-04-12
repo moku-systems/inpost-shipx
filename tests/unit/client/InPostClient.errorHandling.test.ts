@@ -1,12 +1,6 @@
-// tests/unit/client/InPostClient.errorHandling.test.ts
-import { InPostAPIError } from '../../../src/utils/errors';
+import { jest, describe, it } from '@jest/globals';
 import { AxiosError } from 'axios';
-import {
-  BASE_REQUEST_CONFIG,
-  createAxiosError,
-  expectAPIError,
-  setupTestContext,
-} from './helpers';
+import { createAxiosError, expectAPIError, setupTestContext } from './helpers';
 
 jest.mock('axios');
 jest.mock('../../../src/auth/AuthManager');
@@ -52,57 +46,6 @@ describe('InPostClient – Response Interceptor – Error Handling', () => {
       message: 'InPost API server error.',
       property: 'isServerError',
     });
-  });
-
-  it('should handle 401 and retry with new token', async () => {
-    ctx.mockAxiosInstance.request.mockResolvedValue({
-      data: { success: true },
-    });
-
-    ctx.mockAuthManager.getAccessToken
-      .mockResolvedValueOnce('old-token')
-      .mockResolvedValueOnce('new-token');
-
-    const axiosError = createAxiosError({
-      status: 401,
-      data: {
-        status: 401,
-        type: 'auth_error',
-        message: 'Unauthorized access to InPost API.',
-        title: 'Unauthorized',
-      },
-      statusText: 'Unauthorized',
-      config: BASE_REQUEST_CONFIG,
-    });
-
-    const result = await ctx.responseInterceptorError(axiosError);
-
-    expect(ctx.mockAuthManager.clearToken).toHaveBeenCalled();
-    expect(ctx.mockAxiosInstance.request).toHaveBeenCalledWith(
-      expect.objectContaining({
-        method: 'GET',
-        url: '/test',
-        headers: expect.objectContaining({ 'x-retry-count': '1' }),
-      }),
-    );
-    expect(result).toEqual({ data: { success: true } });
-  });
-
-  it('should not retry 401 more than once', async () => {
-    const axiosError = createAxiosError({
-      status: 401,
-      data: {
-        status: 401,
-        type: 'auth_error',
-        message: 'Unauthorized access to InPost API.',
-        title: 'Unauthorized',
-      },
-      statusText: 'Unauthorized',
-    });
-
-    await expect(ctx.responseInterceptorError(axiosError)).rejects.toThrow(
-      InPostAPIError,
-    );
   });
 
   it('should handle network error (no response)', async () => {

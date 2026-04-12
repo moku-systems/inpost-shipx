@@ -1,9 +1,8 @@
-// tests/unit/client/helpers.ts
+import { jest, expect, beforeEach } from '@jest/globals';
 import { InPostClient } from '../../../src/client/InPostClient';
 import { AuthManager } from '../../../src/auth/AuthManager';
 import { InPostAPIError } from '../../../src/utils/errors';
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import type { AuthScope } from '../../../src/types/auth';
 
 // NOTE: Each test file must declare its own jest.mock() calls (they are hoisted
 // per-file by Jest). The typed aliases below are safe to export because they
@@ -17,10 +16,9 @@ export const MockedAuthManager = AuthManager as jest.MockedClass<
 // ── Shared constants ──────────────────────────────────────────────────
 
 export const DEFAULT_CLIENT_CONFIG = {
-  clientId: 'test-client-id',
-  clientSecret: 'test-secret',
+  accessToken: 'test-access-token',
+  organizationId: 'test-organization-id',
   environment: 'sandbox' as const,
-  scope: ['api:points:read'] as AuthScope[],
 };
 
 export const BASE_REQUEST_CONFIG: Partial<InternalAxiosRequestConfig> = {

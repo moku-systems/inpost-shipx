@@ -1,4 +1,4 @@
-// tests/unit/client/InPostClient.retryLogic.test.ts
+import { jest, describe, expect, it, beforeEach } from '@jest/globals';
 import { InPostClient } from '../../../src/client/InPostClient';
 import { InPostAPIError } from '../../../src/utils/errors';
 import * as retryStrategy from '../../../src/client/retryStrategy';
@@ -14,8 +14,8 @@ import {
 jest.mock('axios');
 jest.mock('../../../src/auth/AuthManager');
 jest.mock('../../../src/client/retryStrategy', () => ({
-  ...jest.requireActual('../../../src/client/retryStrategy'),
-  sleep: jest.fn().mockResolvedValue(undefined),
+  ...(jest.requireActual('../../../src/client/retryStrategy') as object),
+  sleep: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
 }));
 
 const mockedSleep = retryStrategy.sleep as jest.MockedFunction<
@@ -163,29 +163,6 @@ describe('InPostClient - Response Interceptor - Retry Logic', () => {
       );
 
       expect(ctx.mockAxiosInstance.request).not.toHaveBeenCalled();
-    });
-
-    it('should still retry 401 (auth refresh) for POST requests', async () => {
-      ctx.mockAxiosInstance.request.mockResolvedValue({
-        data: { success: true },
-      });
-
-      const axiosError = createAxiosError({
-        status: 401,
-        data: { message: 'Unauthorized' },
-        statusText: 'Unauthorized',
-        config: {
-          ...BASE_REQUEST_CONFIG,
-          method: 'POST',
-          headers: {} as any,
-        },
-      });
-
-      const result = await ctx.responseInterceptorError(axiosError);
-
-      expect(ctx.mockAuthManager.clearToken).toHaveBeenCalled();
-      expect(ctx.mockAxiosInstance.request).toHaveBeenCalledTimes(1);
-      expect(result).toEqual({ data: { success: true } });
     });
 
     it.each(['GET', 'HEAD', 'PUT', 'DELETE', 'OPTIONS'])(
