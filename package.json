@@ -1,7 +1,7 @@
 {
   "name": "@moku-systems/inpost-shipx",
   "version": "0.1.0",
-  "description": "Unofficial TypeScript SDK for InPost ShipX API (developers.inpost-group.com)",
+  "description": "Unofficial TypeScript SDK for InPost ShipX API",
   "keywords": [
     "inpost",
     "shipx",
@@ -71,9 +71,10 @@
     "prepublishOnly": "npm run validate && npm run build"
   },
   "dependencies": {
-    "axios": "^1.13.6"
+    "axios": ">=1.15.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.5.2",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
