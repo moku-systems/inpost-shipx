@@ -4,11 +4,12 @@
     "module": "node16",
     "lib": ["ES2020"],
     "moduleResolution": "node16",
-    "types": ["node"],
+    "types": ["node", "jest"],
 
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+    "composite": true,
 
     "outDir": "./dist",
     "rootDir": "./src",
@@ -24,6 +25,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*", "tests/unit/**/*.ts"],
-  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "./tsconfig.test.json" }]
 }

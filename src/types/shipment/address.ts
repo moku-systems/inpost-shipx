@@ -9,6 +9,6 @@ export type Address = {
   streetNumber: string;
   apartmentNumber?: string;
   city: string;
-  postCode: string;
+  postalCode: string;
   countryCode: CountryCode;
 };
