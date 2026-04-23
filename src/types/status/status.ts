@@ -15,7 +15,7 @@ export const ShipmentStatus = {
   OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY', //out_for_delivery, out_for_delivery_to_address
   DELIVERED: 'DELIVERED',
   RETURNED_TO_SENDER: 'RETURNED_TO_SENDER',
-  MISSED_COURIER: 'MISSED_COURIER', //aviso, undelivered_wrong_address, undelivered_incomplete_address, undelivered_unknown_receiver, rejected_by_receiver
+  MISSED_COURIER: 'MISSED_COURIER', //avizo, undelivered_wrong_address, undelivered_incomplete_address, undelivered_unknown_receiver, rejected_by_receiver
   CLAIMED: 'CLAIMED',
   CANCELLED: 'CANCELLED',
 } as const;

@@ -1,7 +1,7 @@
-const ParcelSize = {
-  Small: 'SMALL',
-  Medium: 'MEDIUM',
-  Large: 'LARGE',
+export const ParcelSize = {
+  SMALL: 'SMALL',
+  MEDIUM: 'MEDIUM',
+  LARGE: 'LARGE',
 } as const;
 
 export type ParcelSize = (typeof ParcelSize)[keyof typeof ParcelSize];

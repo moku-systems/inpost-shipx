@@ -1,7 +1,7 @@
 export const ShipmentLabelFormat = {
-  Pdf: 'PDF',
-  Zpl: 'ZPL',
-  Epl: 'EPL',
+  PDF: 'PDF',
+  ZPL: 'ZPL',
+  EPL: 'EPL',
 } as const;
 
 export type ShipmentLabelFormat =
