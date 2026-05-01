@@ -4,6 +4,7 @@
 
 import { ApiShipmentService } from '../types/api/shipment/shipment-service';
 import { ShipmentServiceType } from '../types/shipment';
+import { mapOrThrow } from './common';
 
 export const SERVICE_TO_API = new Map<ShipmentServiceType, ApiShipmentService>([
   [ShipmentServiceType.LOCKER_STANDARD, 'inpost_locker_standard'],
@@ -21,3 +22,14 @@ export const SERVICE_TO_API = new Map<ShipmentServiceType, ApiShipmentService>([
 export const API_TO_SERVICE = new Map<ApiShipmentService, ShipmentServiceType>(
   [...SERVICE_TO_API.entries()].map(([k, v]) => [v, k]),
 );
+
+export function mapServiceToApi(
+  serviceType: ShipmentServiceType,
+): ApiShipmentService {
+  return mapOrThrow(SERVICE_TO_API, serviceType, 'ShipmentServiceType');
+}
+export function mapServiceFromApi(
+  apiService: ApiShipmentService,
+): ShipmentServiceType {
+  return mapOrThrow(API_TO_SERVICE, apiService, 'ApiShipmentService');
+}

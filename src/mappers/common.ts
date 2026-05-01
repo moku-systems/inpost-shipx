@@ -41,7 +41,7 @@ const API_TO_CURRENCY = new Map<ApiCurrency, Currency>(
   [...CURRENCY_TO_API.entries()].map(([k, v]) => [v, k]),
 );
 
-function mapOrThrow<TFrom, TTo>(
+export function mapOrThrow<TFrom, TTo>(
   map: Map<TFrom, TTo>,
   value: TFrom,
   label: string,
@@ -56,24 +56,6 @@ function mapOrThrow<TFrom, TTo>(
 // ═══════════════════════════════════════════════════════════════
 //  Public API
 // ═══════════════════════════════════════════════════════════════
-
-export function mapServiceToApi(
-  serviceType: ShipmentServiceType,
-): ApiShipmentService {
-  return mapOrThrow(SERVICE_TO_API, serviceType, 'ShipmentServiceType');
-}
-export function mapServiceFromApi(
-  apiService: ApiShipmentService,
-): ShipmentServiceType {
-  return mapOrThrow(API_TO_SERVICE, apiService, 'ApiShipmentService');
-}
-
-export function mapStatusToApi(status: ShipmentStatus): ApiShipmentStatus {
-  return mapOrThrow(STATUS_TO_API, status, 'ShipmentStatus');
-}
-export function mapStatusFromApi(apiStatus: ApiShipmentStatus): ShipmentStatus {
-  return mapOrThrow(API_TO_STATUS, apiStatus, 'ApiShipmentStatus');
-}
 
 export function mapParcelSizeToApi(parcelSize: ParcelSize): ApiParcelSize {
   return mapOrThrow(PARCEL_SIZE_TO_API, parcelSize, 'ParcelSize');
