@@ -26,13 +26,9 @@ import type {
   ApiShipmentOffer,
   ApiShipmentListResponse,
 } from '../types/api/shipment/create-shipment-response';
-import {
-  mapCurrencyFromApi,
-  mapServiceFromApi,
-  mapServiceToApi,
-  mapStatusFromApi,
-  mapStatusToApi,
-} from './common';
+import { mapCurrencyFromApi } from './common';
+import { mapServiceFromApi, mapServiceToApi } from './service';
+import { mapStatusFromApi, mapStatusToApi } from './status';
 
 // ═══════════════════════════════════════════════════════════════
 //  INPUT  →  API REQUEST
