@@ -8,9 +8,4 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.test.json',
-    },
-  },
 };
