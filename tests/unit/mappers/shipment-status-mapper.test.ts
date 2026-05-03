@@ -3,7 +3,7 @@ import {
   mapStatusToApi,
   API_TO_STATUS,
 } from '../../../src/mappers';
-import { ShipmentStatus } from '../../../src/types/shipment';
+import { ShipmentStatus } from '../../../src/types/';
 import { ApiShipmentStatus } from '../../../src/types/api/status/shipment-status';
 
 describe('mapStatusToApi', () => {
