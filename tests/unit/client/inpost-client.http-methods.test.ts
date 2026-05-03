@@ -1,8 +1,7 @@
-import { jest, describe, expect, it } from '@jest/globals';
 import { setupTestContext } from './helpers';
 
 jest.mock('axios');
-jest.mock('../../../src/auth/AuthManager');
+jest.mock('../../../src/auth/auth-manager');
 
 describe('InPostClient – HTTP methods', () => {
   const ctx = setupTestContext();

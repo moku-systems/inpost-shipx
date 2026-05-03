@@ -1,3 +1,7 @@
-export * from './InPostClient';
-export { handleError } from './errorHandler';
-export { calculateRetryDelay, sleep, isMethodRetryable } from './retryStrategy';
+export * from './inpost-client';
+export { handleError } from './error-handler';
+export {
+  calculateRetryDelay,
+  sleep,
+  isMethodRetryable,
+} from './retry-strategy';

@@ -1,8 +1,7 @@
-import { jest, describe, it } from '@jest/globals';
 import { createAxiosError, expectAPIError, setupTestContext } from './helpers';
 
 jest.mock('axios');
-jest.mock('../../../src/auth/AuthManager');
+jest.mock('../../../src/auth/auth-manager');
 
 describe('InPostClient – Error classifications', () => {
   const ctx = setupTestContext();

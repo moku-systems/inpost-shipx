@@ -1,9 +1,8 @@
-import { jest, describe, it } from '@jest/globals';
 import { AxiosError } from 'axios';
 import { createAxiosError, expectAPIError, setupTestContext } from './helpers';
 
 jest.mock('axios');
-jest.mock('../../../src/auth/AuthManager');
+jest.mock('../../../src/auth/auth-manager');
 
 describe('InPostClient – Response Interceptor – Error Handling', () => {
   const ctx = setupTestContext();

@@ -1,5 +1,5 @@
-import type { InPostClient } from '../client/InPostClient';
-import type { AuthManager } from '../auth/AuthManager';
+import type { InPostClient } from '../client/inpost-client';
+import type { AuthManager } from '../auth/auth-manager';
 import { ENDPOINTS } from '../utils/api/endpoints';
 
 import type {

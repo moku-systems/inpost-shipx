@@ -1,7 +1,7 @@
-import { jest, describe, expect, it, beforeEach } from '@jest/globals';
-import { InPostClient } from '../../../src/client/InPostClient';
+import { jest } from '@jest/globals';
+import { InPostClient } from '../../../src/client/inpost-client';
 import { InPostAPIError } from '../../../src/utils/errors';
-import * as retryStrategy from '../../../src/client/retryStrategy';
+import * as retryStrategy from '../../../src/client/retry-strategy';
 import {
   BASE_REQUEST_CONFIG,
   DEFAULT_CLIENT_CONFIG,
@@ -12,9 +12,9 @@ import {
 } from './helpers';
 
 jest.mock('axios');
-jest.mock('../../../src/auth/AuthManager');
-jest.mock('../../../src/client/retryStrategy', () => ({
-  ...(jest.requireActual('../../../src/client/retryStrategy') as object),
+jest.mock('../../../src/auth/auth-manager');
+jest.mock('../../../src/client/retry-strategy', () => ({
+  ...(jest.requireActual('../../../src/client/retry-strategy') as object),
   sleep: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
 }));
 
