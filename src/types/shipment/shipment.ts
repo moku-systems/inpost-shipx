@@ -2,7 +2,7 @@ import type { Receiver, Sender } from './shipment-contact';
 import type { Parcel } from './parcel';
 import { Currency } from './currency';
 import { ShipmentServiceType } from './shipment-service';
-import { ShipmentStatus } from '../status/status';
+import { ShipmentStatus } from '../status';
 
 export type Insurance = {
   amount: number;
