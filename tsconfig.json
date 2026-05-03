@@ -10,6 +10,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "composite": true,
+    "isolatedModules": true,
 
     "outDir": "./dist",
     "rootDir": "./src",
@@ -26,6 +27,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "./tsconfig.test.json" }]
+  "exclude": ["node_modules", "dist"]
 }
