@@ -1,5 +1,5 @@
 import { jest, describe, expect, beforeEach, it } from '@jest/globals';
-import { AuthManager } from '../../../src/auth/AuthManager';
+import { AuthManager } from '../../../src/auth/auth-manager';
 import { InPostConfigError } from '../../../src/utils/errors';
 
 describe('AuthManager', () => {

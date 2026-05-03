@@ -1,5 +1,4 @@
-import { jest, describe, expect, it } from '@jest/globals';
-import { InPostClient } from '../../../src/client/InPostClient';
+import { InPostClient } from '../../../src/client/inpost-client';
 import { INPOST_HOSTS } from '../../../src/utils/api';
 import {
   DEFAULT_CLIENT_CONFIG,
@@ -8,7 +7,7 @@ import {
 } from './helpers';
 
 jest.mock('axios');
-jest.mock('../../../src/auth/AuthManager');
+jest.mock('../../../src/auth/auth-manager');
 
 describe('InPostClient – constructor', () => {
   const ctx = setupTestContext();

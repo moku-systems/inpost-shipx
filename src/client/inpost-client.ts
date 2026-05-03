@@ -1,10 +1,14 @@
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios';
 import type { ShipXConfig } from '../types/config';
-import { AuthManager } from '../auth/AuthManager';
+import { AuthManager } from '../auth/auth-manager';
 import { DEFAULT_CONFIG, RETRY_CONFIG } from '../utils/config/defaults';
 import { buildUrl } from '../utils/api';
-import { handleError } from './errorHandler';
-import { calculateRetryDelay, sleep, isMethodRetryable } from './retryStrategy';
+import { handleError } from './error-handler';
+import {
+  calculateRetryDelay,
+  sleep,
+  isMethodRetryable,
+} from './retry-strategy';
 
 export class InPostClient {
   private readonly httpClient: AxiosInstance;

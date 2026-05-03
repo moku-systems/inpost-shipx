@@ -1,6 +1,5 @@
-import { jest, expect, beforeEach } from '@jest/globals';
-import { InPostClient } from '../../../src/client/InPostClient';
-import { AuthManager } from '../../../src/auth/AuthManager';
+import { InPostClient } from '../../../src/client/inpost-client';
+import { AuthManager } from '../../../src/auth/auth-manager';
 import { InPostAPIError } from '../../../src/utils/errors';
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
