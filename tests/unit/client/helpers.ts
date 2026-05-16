@@ -132,6 +132,8 @@ export function setupTestContext(): TestContext {
     ctx.mockAxiosInstance = {
       get: jest.fn(),
       post: jest.fn(),
+      put: jest.fn(),
+      delete: jest.fn(),
       request: jest.fn(),
       interceptors: {
         request: { use: jest.fn() },

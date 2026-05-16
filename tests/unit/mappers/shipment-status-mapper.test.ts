@@ -11,7 +11,7 @@ describe('mapStatusToApi', () => {
   it.each<[ShipmentStatus, ApiShipmentStatus]>([
     [ShipmentStatus.CREATED, 'created'],
     [ShipmentStatus.DELIVERED, 'delivered'],
-    [ShipmentStatus.CANCELLED, 'cancelled'],
+    [ShipmentStatus.CANCELED, 'canceled'],
   ])('mapStatusToApi(%s) returns "%s"', (status, expected) => {
     expect(mapStatusToApi(status)).toBe(expected);
   });
@@ -34,7 +34,7 @@ describe('mapStatusFromApi', () => {
   it.each<[ApiShipmentStatus, ShipmentStatus]>([
     ['created', ShipmentStatus.CREATED],
     ['delivered', ShipmentStatus.DELIVERED],
-    ['cancelled', ShipmentStatus.CANCELLED],
+    ['canceled', ShipmentStatus.CANCELED],
   ])('mapStatusFromApi("%s") returns %s', (apiStatus, expected) => {
     expect(mapStatusFromApi(apiStatus)).toBe(expected);
   });

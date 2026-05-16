@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios';
 import type { ShipXConfig } from '../types/config';
 import { AuthManager } from '../auth/auth-manager';
 import { DEFAULT_CONFIG, RETRY_CONFIG } from '../utils/config/defaults';
-import { buildUrl } from '../utils/api';
+import { buildGatewayUrl, buildUrl } from '../utils/api';
 import { handleError } from './error-handler';
 import {
   calculateRetryDelay,
@@ -12,6 +12,7 @@ import {
 
 export class InPostClient {
   private readonly httpClient: AxiosInstance;
+  private readonly httpGatewayClient: AxiosInstance;
   private readonly authManager: AuthManager;
   private readonly environment: 'sandbox' | 'production';
   private readonly maxRetries: number;
@@ -30,24 +31,32 @@ export class InPostClient {
       config.retryableHttpMethods ?? RETRY_CONFIG.retryableHttpMethods
     ).map(m => m.toUpperCase());
 
-    const baseURL = buildUrl(this.environment, '');
-
-    this.httpClient = axios.create({
-      baseURL: baseURL,
+    const axiosDefaults = {
       timeout: config.timeout || DEFAULT_CONFIG.timeout,
       headers: {
         'Content-Type': 'application/json',
       },
+    };
+
+    this.httpClient = axios.create({
+      baseURL: buildUrl(this.environment, ''),
+      ...axiosDefaults,
     });
-    this.setupInterceptor();
+
+    this.httpGatewayClient = axios.create({
+      baseURL: buildGatewayUrl(this.environment, ''),
+      ...axiosDefaults,
+    });
+    this.setupInterceptor(this.httpClient);
+    this.setupInterceptor(this.httpGatewayClient);
   }
 
   /**
    * Setup Axios interceptors for request and response handling
    */
-  private setupInterceptor(): void {
+  private setupInterceptor(instance: AxiosInstance): void {
     //Add access token to each request
-    this.httpClient.interceptors.request.use(
+    instance.interceptors.request.use(
       async config => {
         const accessToken = await this.authManager.getAccessToken();
         config.headers.Authorization = `Bearer ${accessToken}`;
@@ -57,7 +66,7 @@ export class InPostClient {
     );
 
     // RESPONSE INTERCEPTOR - Handle errors
-    this.httpClient.interceptors.response.use(
+    instance.interceptors.response.use(
       response => response,
       async (error: AxiosError) => {
         const config = error.config;
@@ -113,6 +122,55 @@ export class InPostClient {
     config?: AxiosRequestConfig,
   ): Promise<T> {
     const response = await this.httpClient.post<T>(url, data, config);
+    return response.data;
+  }
+
+  async put<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    const response = await this.httpClient.put<T>(url, data, config);
+    return response.data;
+  }
+
+  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    const response = await this.httpClient.delete<T>(url, config);
+    return response.data;
+  }
+
+  // ── Gateway API methods (points, etc.) ────────────────────────────────
+  async getFromGateway<T>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    const response = await this.httpGatewayClient.get<T>(url, config);
+    return response.data;
+  }
+
+  async postToGateway<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    const response = await this.httpGatewayClient.post<T>(url, data, config);
+    return response.data;
+  }
+
+  async putToGateway<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    const response = await this.httpGatewayClient.put<T>(url, data, config);
+    return response.data;
+  }
+
+  async deleteFromGateway<T>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    const response = await this.httpGatewayClient.delete<T>(url, config);
     return response.data;
   }
 }

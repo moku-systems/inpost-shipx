@@ -1,5 +1,5 @@
 import { InPostClient } from '../../../src/client/inpost-client';
-import { INPOST_HOSTS } from '../../../src/utils/api';
+import { INPOST_HOSTS, INPOST_HOSTS_GATEWAY } from '../../../src/utils/api';
 import {
   DEFAULT_CLIENT_CONFIG,
   mockedAxios,
@@ -21,6 +21,15 @@ describe('InPostClient – constructor', () => {
     );
   });
 
+  it('should create Gateway axios instance with correct baseURL (sandbox)', () => {
+    expect(mockedAxios.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        baseURL: `${INPOST_HOSTS_GATEWAY['sandbox']}/v1`,
+        timeout: 30000,
+      }),
+    );
+  });
+
   it('should create axios instance with correct baseURL (production)', () => {
     jest.clearAllMocks();
 
@@ -29,6 +38,18 @@ describe('InPostClient – constructor', () => {
     expect(mockedAxios.create).toHaveBeenCalledWith(
       expect.objectContaining({
         baseURL: `${INPOST_HOSTS['production']}/v1`,
+      }),
+    );
+  });
+
+  it('should create Gateway axios instance with correct baseURL (production)', () => {
+    jest.clearAllMocks();
+
+    new InPostClient({ ...DEFAULT_CLIENT_CONFIG, environment: 'production' });
+
+    expect(mockedAxios.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        baseURL: `${INPOST_HOSTS_GATEWAY['production']}/v1`,
       }),
     );
   });
@@ -43,8 +64,12 @@ describe('InPostClient – constructor', () => {
     );
   });
 
-  it('should setup request and response interceptors', () => {
-    expect(ctx.mockAxiosInstance.interceptors.request.use).toHaveBeenCalled();
-    expect(ctx.mockAxiosInstance.interceptors.response.use).toHaveBeenCalled();
+  it('should setup interceptors for both ShipX and Gateway instances', () => {
+    expect(
+      ctx.mockAxiosInstance.interceptors.request.use,
+    ).toHaveBeenCalledTimes(2);
+    expect(
+      ctx.mockAxiosInstance.interceptors.response.use,
+    ).toHaveBeenCalledTimes(2);
   });
 });
