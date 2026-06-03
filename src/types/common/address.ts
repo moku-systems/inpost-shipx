@@ -10,5 +10,6 @@ export type Address = {
   apartmentNumber?: string;
   city: string;
   postalCode: string;
+  voivodeship?: string;
   countryCode: CountryCode;
 };
