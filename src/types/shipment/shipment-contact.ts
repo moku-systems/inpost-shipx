@@ -1,4 +1,4 @@
-import { Address } from './address';
+import { Address } from '../common/address';
 
 type ShipmentContact = {
   name?: string;

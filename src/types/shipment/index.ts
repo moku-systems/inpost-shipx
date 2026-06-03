@@ -1,4 +1,4 @@
-export * from './address';
+export * from '../common/address';
 export * from './currency';
 export * from './parcel';
 export * from './shipment-contact';
