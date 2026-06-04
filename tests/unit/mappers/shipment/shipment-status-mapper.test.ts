@@ -1,10 +1,11 @@
+import { describe, expect, it } from '@jest/globals';
 import {
   mapStatusFromApi,
   mapStatusToApi,
   API_TO_STATUS,
-} from '../../../src/mappers';
-import { ShipmentStatus } from '../../../src/types/';
-import { ApiShipmentStatus } from '../../../src/types/api/status/shipment-status';
+} from '../../../../src/mappers';
+import { ShipmentStatus } from '../../../../src/types';
+import { ApiShipmentStatus } from '../../../../src/types/api/status/shipment-status';
 
 describe('mapStatusToApi', () => {
   // 1. Verify the mapping mechanism works (a few representative cases)

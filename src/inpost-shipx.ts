@@ -1,4 +1,4 @@
-import { ShipmentService } from './services';
+import { PointService, ShipmentService } from './services';
 import { InPostClient } from './client';
 import { AuthManager } from './auth';
 import type { ShipXConfig } from './types/config';
@@ -19,14 +19,19 @@ import type { ShipXConfig } from './types/config';
  *   parcels: [{ template: 'MEDIUM' }],
  *   receiver: { email: 'john@example.com', phone: '123456789' },
  * });
+ *
+ * // Points use Gateway host (api.inpost.pl / api-gateway-pl.easypack24.net)
+ * const points = await inpost.points.list({ city: 'Gdańsk' });
  * ```
  */
 export class InPostShipX {
   public readonly shipments: ShipmentService;
+  public readonly points: PointService;
 
   constructor(config: ShipXConfig) {
     const client = new InPostClient(config);
     const authManager = new AuthManager(config);
     this.shipments = new ShipmentService(client, authManager);
+    this.points = new PointService(client);
   }
 }

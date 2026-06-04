@@ -1,7 +1,11 @@
-import { ApiCurrency } from '../types/api/shipment/shipment-currency';
-import { ApiShipmentLabelFormat } from '../types/api/shipment/shipment-label';
-import { ApiParcelSize } from '../types/api/shipment/shipment-parcel-size';
-import { Currency, ParcelSize, ShipmentLabelFormat } from '../types/shipment';
+import { ApiCurrency } from '../../types/api/shipment/shipment-currency';
+import { ApiShipmentLabelFormat } from '../../types/api/shipment/shipment-label';
+import { ApiParcelSize } from '../../types/api/shipment/shipment-parcel-size';
+import {
+  Currency,
+  ParcelSize,
+  ShipmentLabelFormat,
+} from '../../types/shipment';
 
 const PARCEL_SIZE_TO_API = new Map<ParcelSize, ApiParcelSize>([
   [ParcelSize.SMALL, 'small'],

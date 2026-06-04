@@ -11,7 +11,7 @@ import type {
   Parcel,
   Currency,
   CountryCode,
-} from '../types/shipment';
+} from '../../types/shipment';
 
 import type {
   ApiCreateShipmentRequest,
@@ -20,12 +20,12 @@ import type {
   ApiSender,
   ApiParcel,
   ApiBuyShipmentOfferRequest,
-} from '../types/api/shipment/create-shipment-request';
+} from '../../types/api/shipment/create-shipment-request';
 import type {
   ApiShipmentResponse,
   ApiShipmentOffer,
   ApiShipmentListResponse,
-} from '../types/api/shipment/create-shipment-response';
+} from '../../types/api/shipment/create-shipment-response';
 import { mapCurrencyFromApi } from './common';
 import { mapServiceFromApi, mapServiceToApi } from './service';
 import { mapStatusFromApi, mapStatusToApi } from './status';

@@ -12,4 +12,8 @@ export const ENDPOINTS = {
     label: (shipmentId: number) => `/shipments/${shipmentId}/label`,
     buyOffer: (shipmentId: number) => `/shipments/${shipmentId}/buy`,
   },
+  points: {
+    list: () => `/points`,
+    get: (pointName: string) => `/points/${pointName}`,
+  },
 } as const;

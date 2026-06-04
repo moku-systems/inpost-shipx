@@ -1,3 +1,4 @@
+import { jest, describe, expect, it } from '@jest/globals';
 import { InPostClient } from '../../../src/client/inpost-client';
 import { INPOST_HOSTS, INPOST_HOSTS_GATEWAY } from '../../../src/utils/api';
 import {

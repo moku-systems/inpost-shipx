@@ -2,6 +2,8 @@ import type { PointFunctionType } from './point-function';
 import type { Address } from '../common/address';
 import type { PointPartnerType } from './point-partner-type';
 import type { PointType } from './point-type';
+import type { PointStatus } from './point-status';
+import type { PaginatedResponse } from '../common/pagination';
 
 type OperatingHours = {
   day: string;
@@ -14,7 +16,7 @@ type OperatingHours = {
 export type PointResponse = {
   name: string;
   type: PointType[];
-  status: string;
+  status: PointStatus;
   location: {
     longitude: number;
     latitude: number;
@@ -45,3 +47,46 @@ export type PointResponse = {
   operatingHoursDetails: OperatingHours[] | null;
   imageUrl: string | null;
 };
+
+export type GetPointListInput = {
+  // Basic filters
+  name?: string | string[];
+  type?: PointType | PointType[];
+  functions?: PointFunctionType | PointFunctionType[];
+  partnerId?: PointPartnerType | PointPartnerType[];
+  isNext?: boolean;
+  paymentAvailable?: boolean;
+
+  // Address filters
+  postCode?: string | string[];
+  city?: string | string[];
+  province?: string | string[];
+
+  // Technical filters
+  virtual?: number | number[];
+  updatedFrom?: string;
+  updatedTo?: string;
+
+  // Availability
+  location247?: boolean;
+  supportedLockerTemperatures?: number | number[];
+
+  // Location filters
+  relativePoint?: string;
+  relativePostCode?: string;
+  maxDistance?: number;
+  limit?: number;
+
+  // Sorting
+  sortBy?: 'name' | 'distance_to_relative_point' | 'status';
+  sortOrder?: 'asc' | 'desc';
+
+  // Pagination
+  page?: number;
+  perPage?: number;
+
+  // Field selection
+  fields?: string;
+};
+
+export type PointListResult = PaginatedResponse<PointResponse>;
