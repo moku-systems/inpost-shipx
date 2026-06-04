@@ -8,17 +8,14 @@ const mockClient = {
   getRaw: jest.fn(),
 };
 
-const mockAuth = {
-  getAccessToken: jest.fn().mockResolvedValue('test-token' as never),
-  getOrganizationId: jest.fn().mockReturnValue('org-123'),
-};
+const mockOrgId = 'org-123';
 
 describe('ShipmentService', () => {
   let service: ShipmentService;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new ShipmentService(mockClient as any, mockAuth as any);
+    service = new ShipmentService(mockClient as any, mockOrgId);
   });
 
   it('should create a locker shipment', async () => {

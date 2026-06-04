@@ -29,7 +29,7 @@ import {
 export class ShipmentService {
   constructor(
     private readonly client: InPostClient,
-    private readonly authManager: AuthManager,
+    private readonly organizationId: string,
   ) {}
 
   /**
@@ -39,8 +39,7 @@ export class ShipmentService {
   async create(input: CreateShipmentInput): Promise<Shipment> {
     validateCreateShipment(input);
 
-    const orgId = this.authManager.getOrganizationId();
-    const endpoint = ENDPOINTS.shipments.create(orgId);
+    const endpoint = ENDPOINTS.shipments.create(this.organizationId);
     const apiRequest = mapCreateShipmentToApi(input);
     const apiResponse = await this.client.post<ApiShipmentResponse>(
       endpoint,
@@ -66,8 +65,7 @@ export class ShipmentService {
    * GET /v1/organizations/:organization_id/shipments
    */
   async list(input?: GetShipmentListInput): Promise<ShipmentListResult> {
-    const orgId = this.authManager.getOrganizationId();
-    const endpoint = ENDPOINTS.shipments.list(orgId);
+    const endpoint = ENDPOINTS.shipments.list(this.organizationId);
     const params = input ? mapListParamsToApi(input) : undefined;
     const apiResponse = await this.client.get<ApiShipmentListResponse>(
       endpoint,
