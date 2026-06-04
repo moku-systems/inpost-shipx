@@ -30,7 +30,10 @@ export class InPostShipX {
   constructor(config: ShipXConfig) {
     const client = new InPostClient(config);
     const authManager = new AuthManager(config);
-    this.shipments = new ShipmentService(client, authManager);
+    this.shipments = new ShipmentService(
+      client,
+      authManager.getOrganizationId(),
+    );
     this.points = new PointService(client);
   }
 }
