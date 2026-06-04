@@ -18,8 +18,8 @@ import {
   mapListParamsToApi,
   mapShipmentFromApi,
   mapShipmentListFromApi,
-} from '../mappers/shipment';
-import { mapLabelFormatToApi } from '../mappers/common';
+} from '../mappers/shipment/shipment';
+import { mapLabelFormatToApi } from '../mappers/shipment/common';
 import { validateCreateShipment } from '../validators/shipment-validator';
 import {
   ApiShipmentListResponse,

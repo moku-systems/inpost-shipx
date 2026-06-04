@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { jest, describe, expect, it, beforeEach } from '@jest/globals';
 import { InPostClient } from '../../../src/client/inpost-client';
 import { InPostAPIError } from '../../../src/utils/errors';
 import * as retryStrategy from '../../../src/client/retry-strategy';

@@ -2,8 +2,8 @@
 //  SDK  →  API
 // ═══════════════════════════════════════════════════════════════
 
-import { ApiShipmentService } from '../types/api/shipment/shipment-service';
-import { ShipmentServiceType } from '../types/shipment';
+import { ApiShipmentService } from '../../types/api/shipment/shipment-service';
+import { ShipmentServiceType } from '../../types/shipment';
 import { mapOrThrow } from './common';
 
 export const SERVICE_TO_API = new Map<ShipmentServiceType, ApiShipmentService>([

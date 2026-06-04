@@ -1,6 +1,6 @@
 import { jest, describe, expect, it, beforeEach } from '@jest/globals';
-import { ShipmentService } from '../../../src/services/shipment-service';
-import type { CreateShipmentInput } from '../../../src/types/shipment';
+import { ShipmentService } from '../../../../src/services/shipment-service';
+import type { CreateShipmentInput } from '../../../../src/types/shipment';
 
 const mockClient = {
   get: jest.fn(),

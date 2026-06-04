@@ -1,10 +1,11 @@
+import { jest, describe, expect, it } from '@jest/globals';
 import {
   mapServiceFromApi,
   mapServiceToApi,
   API_TO_SERVICE,
-} from '../../../src/mappers';
-import { ShipmentServiceType } from '../../../src/types/shipment';
-import { ApiShipmentService } from '../../../src/types/api/shipment/shipment-service';
+} from '../../../../src/mappers';
+import { ShipmentServiceType } from '../../../../src/types/shipment';
+import { ApiShipmentService } from '../../../../src/types/api/shipment/shipment-service';
 
 describe('mapServiceToApi', () => {
   // 1. Verify the mapping mechanism works (a few representative cases)
