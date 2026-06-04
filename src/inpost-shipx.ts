@@ -20,7 +20,6 @@ import type { ShipXConfig } from './types/config';
  *   receiver: { email: 'john@example.com', phone: '123456789' },
  * });
  *
- * // Points use Gateway host (api.inpost.pl / api-gateway-pl.easypack24.net)
  * const points = await inpost.points.list({ city: 'Gdańsk' });
  * ```
  */
