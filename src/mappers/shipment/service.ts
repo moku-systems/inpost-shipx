@@ -2,11 +2,14 @@
 //  SDK  →  API
 // ═══════════════════════════════════════════════════════════════
 
-import { ApiShipmentService } from '../../types/api/shipment/shipment-service';
+import { ApiShipmentServiceType } from '../../types/api/shipment/shipment-service';
 import { ShipmentServiceType } from '../../types/shipment';
 import { mapOrThrow } from './common';
 
-export const SERVICE_TO_API = new Map<ShipmentServiceType, ApiShipmentService>([
+export const SERVICE_TO_API = new Map<
+  ShipmentServiceType,
+  ApiShipmentServiceType
+>([
   [ShipmentServiceType.LOCKER_STANDARD, 'inpost_locker_standard'],
   [ShipmentServiceType.LOCKER_PASS_THRU, 'inpost_locker_pass_thru'],
   [ShipmentServiceType.LOCKER_ECONOMY, 'inpost_locker_economy'],
@@ -19,17 +22,18 @@ export const SERVICE_TO_API = new Map<ShipmentServiceType, ApiShipmentService>([
   [ShipmentServiceType.COURIER_C2C, 'inpost_courier_c2c'],
 ]);
 
-export const API_TO_SERVICE = new Map<ApiShipmentService, ShipmentServiceType>(
-  [...SERVICE_TO_API.entries()].map(([k, v]) => [v, k]),
-);
+export const API_TO_SERVICE = new Map<
+  ApiShipmentServiceType,
+  ShipmentServiceType
+>([...SERVICE_TO_API.entries()].map(([k, v]) => [v, k]));
 
 export function mapServiceToApi(
   serviceType: ShipmentServiceType,
-): ApiShipmentService {
+): ApiShipmentServiceType {
   return mapOrThrow(SERVICE_TO_API, serviceType, 'ShipmentServiceType');
 }
 export function mapServiceFromApi(
-  apiService: ApiShipmentService,
+  apiService: ApiShipmentServiceType,
 ): ShipmentServiceType {
-  return mapOrThrow(API_TO_SERVICE, apiService, 'ApiShipmentService');
+  return mapOrThrow(API_TO_SERVICE, apiService, 'ApiShipmentServiceType');
 }

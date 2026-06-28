@@ -1,4 +1,4 @@
-export type ApiShipmentService =
+export type ApiShipmentServiceType =
   | 'inpost_locker_standard'
   | 'inpost_locker_pass_thru'
   | 'inpost_locker_economy'

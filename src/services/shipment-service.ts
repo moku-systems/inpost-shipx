@@ -1,5 +1,4 @@
 import type { InPostClient } from '../client/inpost-client';
-import type { AuthManager } from '../auth/auth-manager';
 import { ENDPOINTS } from '../utils/api/endpoints';
 
 import type {
@@ -33,7 +32,7 @@ export class ShipmentService {
   ) {}
 
   /**
-   * Utwórz nową przesyłkę
+   * Create a new shipment for the organization
    * POST /v1/organizations/:organization_id/shipments
    */
   async create(input: CreateShipmentInput): Promise<Shipment> {
@@ -50,7 +49,7 @@ export class ShipmentService {
   }
 
   /**
-   * Pobierz szczegóły przesyłki
+   * Get shipment details
    * GET /v1/shipments/:id
    */
   async get(shipmentId: number): Promise<Shipment> {
@@ -61,7 +60,7 @@ export class ShipmentService {
   }
 
   /**
-   * Pobierz listę przesyłek organizacji
+   * Get a list of shipments for the organization
    * GET /v1/organizations/:organization_id/shipments
    */
   async list(input?: GetShipmentListInput): Promise<ShipmentListResult> {
@@ -76,7 +75,7 @@ export class ShipmentService {
   }
 
   /**
-   * Kup ofertę przesyłki
+   * Buy a shipment offer
    * POST /v1/shipments/:id/buy
    */
   async buyOffer(
@@ -94,7 +93,7 @@ export class ShipmentService {
   }
 
   /**
-   * Pobierz etykietę przesyłki
+   * Get shipment label
    * GET /v1/shipments/:id/label
    */
   async getLabel(
