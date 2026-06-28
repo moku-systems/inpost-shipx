@@ -3,25 +3,47 @@
  * @internal
  */
 
+import { ApiShipmentOfferStatus } from '../status/shipment-offer-status';
 import { ApiShipmentStatus } from '../status/shipment-status';
 import { ApiCurrency } from './shipment-currency';
-import { ApiShipmentService } from './shipment-service';
+import { ApiShipmentServiceType } from './shipment-service';
+import { ApiShipmentTransactionStatus } from '../status/shipment-transaction-status';
+
+export type ApiShipmentService = {
+  id: string;
+  name: string;
+  description: string;
+};
 
 export type ApiShipmentOffer = {
   id: string;
   carrier: { id: string; name: string };
-  service: ApiShipmentService;
-  status: ApiShipmentStatus;
+  service: ApiShipmentServiceType;
+  status: ApiShipmentOfferStatus;
   expires_at: string;
-  rate: number;
+  rate: number | null;
   currency: ApiCurrency;
+};
+
+export type ApiShipmentTransaction = {
+  id: number;
+  status: ApiShipmentTransactionStatus;
+  created_at: string;
+  updated_at: string;
+  offer_id: number;
+  details: {
+    status: number;
+    error: string;
+    message: string;
+    details: Record<string, string | number | boolean | null>;
+  } | null;
 };
 
 export type ApiShipmentResponse = {
   id: number;
   status: ApiShipmentStatus;
   tracking_number: string | null;
-  service: ApiShipmentService;
+  service: ApiShipmentServiceType;
   reference: string | null;
   comments: string | null;
   created_at: string;
@@ -72,6 +94,7 @@ export type ApiShipmentResponse = {
   cod: { amount: number; currency: ApiCurrency } | null;
   offers: ApiShipmentOffer[];
   selected_offer: ApiShipmentOffer | null;
+  transactions: ApiShipmentTransaction[] | null;
   custom_attributes: Record<string, string> | null;
   external_customer_id: string | null;
 };

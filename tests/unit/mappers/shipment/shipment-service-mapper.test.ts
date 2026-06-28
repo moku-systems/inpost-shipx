@@ -5,11 +5,11 @@ import {
   API_TO_SERVICE,
 } from '../../../../src/mappers';
 import { ShipmentServiceType } from '../../../../src/types/shipment';
-import { ApiShipmentService } from '../../../../src/types/api/shipment/shipment-service';
+import { ApiShipmentServiceType } from '../../../../src/types/api/shipment/shipment-service';
 
 describe('mapServiceToApi', () => {
   // 1. Verify the mapping mechanism works (a few representative cases)
-  it.each<[ShipmentServiceType, ApiShipmentService]>([
+  it.each<[ShipmentServiceType, ApiShipmentServiceType]>([
     [ShipmentServiceType.COURIER_C2C, 'inpost_courier_c2c'],
     [ShipmentServiceType.COURIER_EXPRESS_1000, 'inpost_courier_express_1000'],
     [ShipmentServiceType.COURIER_STANDARD, 'inpost_courier_standard'],
@@ -33,7 +33,7 @@ describe('mapServiceToApi', () => {
 
 describe('mapServiceFromApi', () => {
   // 1. Verify the mapping mechanism works (a few representative cases)
-  it.each<[ApiShipmentService, ShipmentServiceType]>([
+  it.each<[ApiShipmentServiceType, ShipmentServiceType]>([
     ['inpost_courier_c2c', ShipmentServiceType.COURIER_C2C],
     ['inpost_courier_express_1000', ShipmentServiceType.COURIER_EXPRESS_1000],
     ['inpost_courier_standard', ShipmentServiceType.COURIER_STANDARD],
@@ -43,7 +43,7 @@ describe('mapServiceFromApi', () => {
   });
 
   // 2. Verify completeness — all API service values have a mapping
-  it('should have a mapping for every ApiShipmentService', () => {
+  it('should have a mapping for every ApiShipmentServiceType', () => {
     for (const service of API_TO_SERVICE.keys()) {
       expect(() => mapServiceFromApi(service)).not.toThrow();
     }
@@ -51,6 +51,8 @@ describe('mapServiceFromApi', () => {
 
   // 3. Verify the error case
   it('should throw for unknown service', () => {
-    expect(() => mapServiceFromApi('unknown' as ApiShipmentService)).toThrow();
+    expect(() =>
+      mapServiceFromApi('unknown' as ApiShipmentServiceType),
+    ).toThrow();
   });
 });

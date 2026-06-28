@@ -11,6 +11,7 @@ import type {
   Parcel,
   Currency,
   CountryCode,
+  ShipmentTransaction,
 } from '../../types/shipment';
 
 import type {
@@ -25,10 +26,13 @@ import type {
   ApiShipmentResponse,
   ApiShipmentOffer,
   ApiShipmentListResponse,
+  ApiShipmentTransaction,
 } from '../../types/api/shipment/create-shipment-response';
 import { mapCurrencyFromApi } from './common';
 import { mapServiceFromApi, mapServiceToApi } from './service';
-import { mapStatusFromApi, mapStatusToApi } from './status';
+import { mapStatusFromApi, mapStatusToApi } from '../status/shipment-status';
+import { mapOfferStatusFromApi } from '../status/shipment-offer-status';
+import { mapShipmentTransactionStatusFromApi } from '../status/shipment-transaction-status';
 
 // ═══════════════════════════════════════════════════════════════
 //  INPUT  →  API REQUEST
@@ -171,10 +175,30 @@ function mapOfferFromApi(api: ApiShipmentOffer): ShipmentOffer {
     id: api.id,
     carrier: api.carrier,
     service: mapServiceFromApi(api.service),
-    status: mapStatusFromApi(api.status),
+    status: mapOfferStatusFromApi(api.status),
     expiresAt: api.expires_at,
     rate: api.rate,
     currency: mapCurrencyFromApi(api.currency),
+  };
+}
+
+function mapTransactionFromApi(
+  api: ApiShipmentTransaction,
+): ShipmentTransaction {
+  return {
+    id: api.id,
+    status: mapShipmentTransactionStatusFromApi(api.status),
+    createdAt: api.created_at,
+    updatedAt: api.updated_at,
+    offerId: api.offer_id,
+    details: api.details
+      ? {
+          status: api.details.status,
+          error: api.details.error,
+          message: api.details.message,
+          details: api.details.details,
+        }
+      : null,
   };
 }
 
@@ -215,6 +239,9 @@ export function mapShipmentFromApi(api: ApiShipmentResponse): Shipment {
     })),
     selectedOffer: api.selected_offer
       ? mapOfferFromApi(api.selected_offer)
+      : null,
+    transactions: api.transactions
+      ? api.transactions.map(mapTransactionFromApi)
       : null,
     customAttributes: api.custom_attributes,
     externalCustomerId: api.external_customer_id,
