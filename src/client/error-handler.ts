@@ -42,6 +42,11 @@ function normalizeErrorData(data: unknown, message: string): ErrorData {
     errorNormalized.type = errorData.type;
   }
 
+  if (errorData.message) {
+    errorNormalized.message = errorData.message;
+    errorNormalized.type = errorData.type;
+  }
+
   if (Array.isArray(errorData.errors)) {
     errorData.errors.forEach(err => {
       errorNormalized.errors.push({ detail: err, type: 'unknown' });

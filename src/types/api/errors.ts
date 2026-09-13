@@ -8,6 +8,7 @@ export type CommonApiErrorResponse = {
   type?: string;
   title?: string;
   detail?: string;
+  message?: string;
   instance?: string;
   errors?: string[] | Record<string, string[]>;
 };
