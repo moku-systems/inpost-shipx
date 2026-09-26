@@ -4,8 +4,8 @@ import {
   mapServiceToApi,
   API_TO_SERVICE,
 } from '../../../../src/mappers';
-import { ShipmentServiceType } from '../../../../src/types/shipment';
-import { ApiShipmentServiceType } from '../../../../src/types/api/shipment/shipment-service';
+import { ApiShipmentServiceType } from '../../../../src/types/api/service/shipment-service';
+import { ShipmentServiceType } from '../../../../src/types';
 
 describe('mapServiceToApi', () => {
   // 1. Verify the mapping mechanism works (a few representative cases)
