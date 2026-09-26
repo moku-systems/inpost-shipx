@@ -6,7 +6,7 @@
 import { ApiShipmentOfferStatus } from '../status/shipment-offer-status';
 import { ApiShipmentStatus } from '../status/shipment-status';
 import { ApiCurrency } from './shipment-currency';
-import { ApiShipmentServiceType } from './shipment-service';
+import { ApiShipmentServiceType } from '../service/shipment-service';
 import { ApiShipmentTransactionStatus } from '../status/shipment-transaction-status';
 
 export type ApiShipmentService = {

@@ -1,6 +1,6 @@
 import type { InPostClient } from '../client/inpost-client';
 import { ENDPOINTS } from '../utils/api/endpoints';
-import type { ApiListResponse } from '../types/api/common';
+import type { ApiListResponse } from '../types/api/common/pagination';
 import type { ApiPointResponse } from '../types/api/points/point-response';
 import type {
   GetPointListInput,

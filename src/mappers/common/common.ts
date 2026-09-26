@@ -1,16 +1,22 @@
 import { ApiCurrency } from '../../types/api/shipment/shipment-currency';
 import { ApiShipmentLabelFormat } from '../../types/api/shipment/shipment-label';
-import { ApiParcelSize } from '../../types/api/shipment/shipment-parcel-size';
 import {
-  Currency,
-  ParcelSize,
-  ShipmentLabelFormat,
-} from '../../types/shipment';
+  ApiParcelSize,
+  ApiTrackingParcelSize,
+} from '../../types/api/parcel/shipment-parcel-size';
+import { Currency, ShipmentLabelFormat } from '../../types/shipment';
+import { ParcelSize } from '../../types';
 
 const PARCEL_SIZE_TO_API = new Map<ParcelSize, ApiParcelSize>([
   [ParcelSize.SMALL, 'small'],
   [ParcelSize.MEDIUM, 'medium'],
   [ParcelSize.LARGE, 'large'],
+]);
+
+const TRACKING_PARCEL_SIZE = new Map<ParcelSize, ApiTrackingParcelSize>([
+  [ParcelSize.SMALL, 'A'],
+  [ParcelSize.MEDIUM, 'B'],
+  [ParcelSize.LARGE, 'C'],
 ]);
 
 const CURRENCY_TO_API = new Map<Currency, ApiCurrency>([
@@ -29,6 +35,10 @@ const LABEL_FORMAT_TO_API = new Map<
 
 const API_TO_PARCEL_SIZE = new Map<ApiParcelSize, ParcelSize>(
   [...PARCEL_SIZE_TO_API.entries()].map(([k, v]) => [v, k]),
+);
+
+const API_TO_TRACKING_PARCEL_SIZE = new Map<ApiTrackingParcelSize, ParcelSize>(
+  [...TRACKING_PARCEL_SIZE.entries()].map(([k, v]) => [v, k]),
 );
 
 const API_TO_CURRENCY = new Map<ApiCurrency, Currency>(
@@ -54,8 +64,19 @@ export function mapOrThrow<TFrom, TTo>(
 export function mapParcelSizeToApi(parcelSize: ParcelSize): ApiParcelSize {
   return mapOrThrow(PARCEL_SIZE_TO_API, parcelSize, 'ParcelSize');
 }
+
 export function mapParcelSizeFromApi(apiParcelSize: ApiParcelSize): ParcelSize {
   return mapOrThrow(API_TO_PARCEL_SIZE, apiParcelSize, 'ApiParcelSize');
+}
+
+export function mapTrackingParcelSizeFromApi(
+  apiTrackingParcelSize: ApiTrackingParcelSize,
+): ParcelSize {
+  return mapOrThrow(
+    API_TO_TRACKING_PARCEL_SIZE,
+    apiTrackingParcelSize,
+    'ApiTrackingParcelSize',
+  );
 }
 
 export function mapLabelFormatToApi(

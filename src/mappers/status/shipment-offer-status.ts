@@ -1,6 +1,6 @@
 import { ApiShipmentOfferStatus } from '../../types/api/status/shipment-offer-status';
 import { ShipmentOfferStatus } from '../../types/status/offer-status';
-import { mapOrThrow } from '../shipment/common';
+import { mapOrThrow } from '../common/common';
 
 export const OFFER_STATUS_TO_API = new Map<
   ShipmentOfferStatus,

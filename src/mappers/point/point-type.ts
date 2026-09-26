@@ -1,6 +1,6 @@
 import { ApiPointType } from '../../types/api/points/point-type';
 import { PointType } from '../../types/points/point-type';
-import { mapOrThrow } from '../shipment/common';
+import { mapOrThrow } from '../common/common';
 
 export const POINT_TYPE_TO_API = new Map<PointType, ApiPointType>([
   [PointType.PARCEL_LOCKER, 'parcel_locker'],
