@@ -1,7 +1,7 @@
 import type { Receiver, Sender } from './shipment-contact';
-import type { Parcel } from './parcel';
+import type { Parcel } from '../parcel/parcel';
 import { Currency } from './currency';
-import { ShipmentServiceType } from './shipment-service';
+import { ShipmentServiceType } from '../service/shipment-service';
 import { ShipmentStatus } from '../status';
 import { ShipmentOfferStatus } from '../status/offer-status';
 import { ShipmentTransactionStatus } from '../status/shipment-transaction-status';

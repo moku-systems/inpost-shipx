@@ -1,4 +1,4 @@
-import { PointService, ShipmentService } from './services';
+import { PointService, ShipmentService, TrackingService } from './services';
 import { InPostClient } from './client';
 import { AuthManager } from './auth';
 import type { ShipXConfig } from './types/config';
@@ -26,6 +26,7 @@ import type { ShipXConfig } from './types/config';
 export class InPostShipX {
   public readonly shipments: ShipmentService;
   public readonly points: PointService;
+  public readonly tracking: TrackingService;
 
   constructor(config: ShipXConfig) {
     const client = new InPostClient(config);
@@ -35,5 +36,6 @@ export class InPostShipX {
       authManager.getOrganizationId(),
     );
     this.points = new PointService(client);
+    this.tracking = new TrackingService(client);
   }
 }

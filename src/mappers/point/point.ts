@@ -1,5 +1,5 @@
 import type { ApiPointResponse } from '../../types/api/points/point-response';
-import type { ApiListResponse } from '../../types/api/common';
+import type { ApiListResponse } from '../../types/api/common/pagination';
 import type { PaginatedResponse } from '../../types/common/pagination';
 import type { PointResponse, GetPointListInput } from '../../types/points';
 import { CountryCode } from '../../types/common/address';

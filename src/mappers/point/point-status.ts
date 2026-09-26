@@ -1,6 +1,6 @@
 import { PointStatus as ApiPointStatus } from '../../types/api/points/point-status';
 import { PointStatus } from '../../types/points/point-status';
-import { mapOrThrow } from '../shipment/common';
+import { mapOrThrow } from '../common/common';
 
 export const POINT_STATUS_TO_API = new Map<PointStatus, ApiPointStatus>([
   [PointStatus.OPERATING, 'Operating'],

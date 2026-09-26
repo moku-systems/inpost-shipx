@@ -1,6 +1,6 @@
 import { ApiShipmentTransactionStatus } from '../../types/api/status/shipment-transaction-status';
 import { ShipmentTransactionStatus } from '../../types/status/shipment-transaction-status';
-import { mapOrThrow } from '../shipment';
+import { mapOrThrow } from '../common';
 
 export const SHIPMENT_TRANSACTION_STATUS = new Map<
   ShipmentTransactionStatus,

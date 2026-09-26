@@ -16,4 +16,9 @@ export const ENDPOINTS = {
     list: () => `/points`,
     get: (pointName: string) => `/points/${pointName}`,
   },
+  tracking: {
+    getServiceHistory: (trackingId: string) =>
+      `/tracking/${trackingId}/service_history`,
+    getTracking: (trackingId: string) => `/tracking/${trackingId}`,
+  },
 } as const;

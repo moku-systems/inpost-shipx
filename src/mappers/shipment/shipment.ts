@@ -5,12 +5,9 @@ import type {
   ShipmentListResult,
   BuyShipmentOfferInput,
   GetShipmentListInput,
-  Address,
   Receiver,
   Sender,
-  Parcel,
   Currency,
-  CountryCode,
   ShipmentTransaction,
 } from '../../types/shipment';
 
@@ -28,11 +25,12 @@ import type {
   ApiShipmentListResponse,
   ApiShipmentTransaction,
 } from '../../types/api/shipment/create-shipment-response';
-import { mapCurrencyFromApi } from './common';
-import { mapServiceFromApi, mapServiceToApi } from './service';
+import { mapCurrencyFromApi } from '../common/common';
+import { mapServiceFromApi, mapServiceToApi } from '../service/service';
 import { mapStatusFromApi, mapStatusToApi } from '../status/shipment-status';
 import { mapOfferStatusFromApi } from '../status/shipment-offer-status';
 import { mapShipmentTransactionStatusFromApi } from '../status/shipment-transaction-status';
+import { Address, CountryCode, Parcel } from '../../types';
 
 // ═══════════════════════════════════════════════════════════════
 //  INPUT  →  API REQUEST
