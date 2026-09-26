@@ -13,3 +13,7 @@ export type Address = {
   voivodeship?: string;
   countryCode: CountryCode;
 };
+
+export type AddressLine = { streetLine: string; cityWithPostalCode: string };
+export type AddressGeoLocation = { latitude: number; longitude: number };
+export type AddressLocationDescription = string;
