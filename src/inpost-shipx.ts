@@ -19,8 +19,16 @@ import type { ShipXConfig } from './types/config';
  *   parcels: [{ template: 'MEDIUM' }],
  *   receiver: { email: 'john@example.com', phone: '123456789' },
  * });
+ * or
+ * const shipmentWithLabel = await inpost.shipments.createShipmentWithLabel({
+ *   service: 'LOCKER_STANDARD',
+ *   parcels: [{ template: 'MEDIUM' }],
+ *   receiver: { email: 'john@example.com', phone: '123456789' },
+ * });
  *
  * const points = await inpost.points.list({ city: 'Gdańsk' });
+ *
+ * const tracking = await inpost.tracking.get('your-tracking-number');
  * ```
  */
 export class InPostShipX {
@@ -34,6 +42,10 @@ export class InPostShipX {
     this.shipments = new ShipmentService(
       client,
       authManager.getOrganizationId(),
+      {
+        maxStatusChecks: config.maxShipmentStatusChecks,
+        statusCheckRetryDelay: config.shipmentStatusCheckRetryDelay,
+      },
     );
     this.points = new PointService(client);
     this.tracking = new TrackingService(client);

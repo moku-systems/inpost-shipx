@@ -1,5 +1,7 @@
 import type { InPostClient } from '../client/inpost-client';
+import { sleep } from '../client/retry-strategy';
 import { ENDPOINTS } from '../utils/api/endpoints';
+import { SHIPMENT_CONFIG } from '../utils/config/defaults';
 
 import type {
   CreateShipmentInput,
@@ -8,6 +10,7 @@ import type {
   GetShipmentListInput,
   ShipmentLabelFormat,
   BuyShipmentOfferInput,
+  CreateShipmentWithLabel,
 } from '../types/shipment';
 
 // Mappery
@@ -17,19 +20,47 @@ import {
   mapListParamsToApi,
   mapShipmentFromApi,
   mapShipmentListFromApi,
+  mapCreateShipmentWithLabel,
 } from '../mappers/shipment/shipment';
 import { mapLabelFormatToApi } from '../mappers/common/common';
 import { validateCreateShipment } from '../validators/shipment-validator';
+import { ShipmentNotConfirmedError } from '../utils/errors';
 import {
   ApiShipmentListResponse,
   ApiShipmentResponse,
 } from '../types/api/shipment/create-shipment-response';
 
 export class ShipmentService {
+  private readonly maxStatusChecks: number;
+  private readonly statusCheckRetryDelay: number;
+
   constructor(
     private readonly client: InPostClient,
     private readonly organizationId: string,
-  ) {}
+    options?: {
+      /**
+       * Used to determine how many times the service will poll the shipment status before throwing an error.
+       * Check till the shipment is confirmed or the maximum number of attempts is reached.
+       * @default 5
+       */
+      maxStatusChecks?: number;
+      /**
+       * Delay between shipment status checks in milliseconds.
+       * This delay is applied between each status check attempt till the shipment is confirmed or the maximum number of attempts is reached.
+       * @default 500
+       */
+      statusCheckRetryDelay?: number;
+    },
+  ) {
+    this.maxStatusChecks = Math.max(
+      1,
+      options?.maxStatusChecks ?? SHIPMENT_CONFIG.maxStatusChecks,
+    );
+    this.statusCheckRetryDelay = Math.max(
+      0,
+      options?.statusCheckRetryDelay ?? SHIPMENT_CONFIG.statusCheckRetryDelay,
+    );
+  }
 
   /**
    * Create a new shipment for the organization
@@ -57,6 +88,32 @@ export class ShipmentService {
     const apiResponse = await this.client.get<ApiShipmentResponse>(endpoint);
 
     return mapShipmentFromApi(apiResponse);
+  }
+
+  async createShipmentWithLabel(
+    input: CreateShipmentInput,
+    format: ShipmentLabelFormat = 'PDF',
+  ): Promise<CreateShipmentWithLabel> {
+    const shipment = await this.create(input);
+    const shipmentStatus = await this.waitForConfirmedStatus(shipment.id);
+
+    const label = await this.getLabel(shipment.id, format);
+    return mapCreateShipmentWithLabel(shipmentStatus, label);
+  }
+
+  private async waitForConfirmedStatus(shipmentId: number): Promise<Shipment> {
+    for (let attempt = 1; attempt <= this.maxStatusChecks; attempt++) {
+      const shipment = await this.get(shipmentId);
+      if (shipment.status === 'CONFIRMED') {
+        return shipment;
+      }
+
+      if (attempt < this.maxStatusChecks) {
+        await sleep(this.statusCheckRetryDelay);
+      }
+    }
+
+    throw new ShipmentNotConfirmedError(shipmentId, this.maxStatusChecks);
   }
 
   /**

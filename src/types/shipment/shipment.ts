@@ -77,6 +77,13 @@ export type Shipment = {
   externalCustomerId: string | null;
 };
 
+export type CreateShipmentWithLabel = {
+  status: ShipmentStatus;
+  service: ShipmentServiceType;
+  trackingNumber: string;
+  label: Buffer;
+};
+
 export type ShipmentListResult = {
   items: Shipment[];
   count: number;

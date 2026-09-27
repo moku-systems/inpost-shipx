@@ -42,7 +42,7 @@ export type ApiShipmentTransaction = {
 export type ApiShipmentResponse = {
   id: number;
   status: ApiShipmentStatus;
-  tracking_number: string | null;
+  tracking_number?: string;
   service: ApiShipmentServiceType;
   reference: string | null;
   comments: string | null;

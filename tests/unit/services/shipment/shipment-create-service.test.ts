@@ -3,6 +3,17 @@ import { ShipmentService } from '../../../../src/services/shipment-service';
 import type { CreateShipmentInput } from '../../../../src/types/shipment';
 import { ShipmentOfferStatus } from '../../../../src/types/status/offer-status';
 import { ShipmentTransactionStatus } from '../../../../src/types/status/shipment-transaction-status';
+import { ShipmentNotConfirmedError } from '../../../../src/utils/errors';
+import * as retryStrategy from '../../../../src/client/retry-strategy';
+
+jest.mock('../../../../src/client/retry-strategy', () => ({
+  ...(jest.requireActual('../../../../src/client/retry-strategy') as object),
+  sleep: jest.fn<() => Promise<void>>().mockResolvedValue(undefined),
+}));
+
+const mockedSleep = retryStrategy.sleep as jest.MockedFunction<
+  typeof retryStrategy.sleep
+>;
 
 const mockClient = {
   get: jest.fn(),
@@ -15,8 +26,33 @@ const mockOrgId = 'org-123';
 describe('ShipmentService', () => {
   let service: ShipmentService;
 
+  const createShipmentResponse = (
+    status: string,
+    trackingNumber: string | null = null,
+  ) => ({
+    id: 1,
+    status,
+    tracking_number: trackingNumber,
+    service: 'inpost_locker_standard',
+    reference: null,
+    comments: null,
+    created_at: '2026-01-01T00:00:00Z',
+    updated_at: '2026-01-01T00:00:00Z',
+    receiver: { email: 'jan@test.pl', phone: '500600700' },
+    sender: { email: '', phone: '' },
+    parcels: [],
+    insurance: null,
+    cod: null,
+    offers: [],
+    selected_offer: null,
+    transactions: [],
+    custom_attributes: null,
+    external_customer_id: null,
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
+    mockedSleep.mockClear();
     service = new ShipmentService(mockClient as any, mockOrgId);
   });
 
@@ -212,5 +248,86 @@ describe('ShipmentService', () => {
       expect.objectContaining({ params: { format: 'pdf' } }),
     );
     expect(Buffer.isBuffer(result)).toBe(true);
+  });
+
+  it('should retry shipment status checks and fetch label once confirmed', async () => {
+    service = new ShipmentService(mockClient as any, mockOrgId, {
+      maxStatusChecks: 5,
+      statusCheckRetryDelay: 100,
+    });
+
+    const request: CreateShipmentInput = {
+      service: 'LOCKER_STANDARD',
+      receiver: { email: 'jan@test.pl', phone: '500600700' },
+      parcels: [{ template: 'SMALL' }],
+    };
+
+    const shipmentStatuses = [
+      createShipmentResponse('created'),
+      createShipmentResponse('offers_prepared'),
+      createShipmentResponse('confirmed', 'TRACK123'),
+    ];
+
+    const labelBuffer = Buffer.from('label-bytes');
+
+    mockClient.post.mockResolvedValue(
+      createShipmentResponse('created') as never,
+    );
+    mockClient.get.mockImplementation((url: string) => {
+      if (url === '/shipments/1') {
+        return Promise.resolve(shipmentStatuses.shift() as never);
+      }
+
+      if (url === '/shipments/1/label') {
+        return Promise.resolve(labelBuffer as never);
+      }
+
+      return Promise.reject(new Error(`Unexpected URL: ${url}`));
+    });
+
+    const result = await service.createShipmentWithLabel(request, 'PDF');
+
+    expect(mockedSleep).toHaveBeenCalledTimes(2);
+    expect(mockedSleep).toHaveBeenNthCalledWith(1, 100);
+    expect(mockedSleep).toHaveBeenNthCalledWith(2, 100);
+    expect(mockClient.get).toHaveBeenCalledTimes(4);
+    expect(result.status).toBe('CONFIRMED');
+    expect(result.trackingNumber).toBe('TRACK123');
+    expect(result.label.equals(labelBuffer)).toBe(true);
+  });
+
+  it('should throw when shipment is not confirmed after max checks', async () => {
+    service = new ShipmentService(mockClient as any, mockOrgId, {
+      maxStatusChecks: 3,
+      statusCheckRetryDelay: 50,
+    });
+
+    const request: CreateShipmentInput = {
+      service: 'LOCKER_STANDARD',
+      receiver: { email: 'jan@test.pl', phone: '500600700' },
+      parcels: [{ template: 'SMALL' }],
+    };
+
+    mockClient.post.mockResolvedValue(
+      createShipmentResponse('created') as never,
+    );
+    mockClient.get.mockImplementation((url: string) => {
+      if (url === '/shipments/1') {
+        return Promise.resolve(createShipmentResponse('created') as never);
+      }
+
+      if (url === '/shipments/1/label') {
+        return Promise.resolve(Buffer.from('label') as never);
+      }
+
+      return Promise.reject(new Error(`Unexpected URL: ${url}`));
+    });
+
+    await expect(service.createShipmentWithLabel(request)).rejects.toThrow(
+      ShipmentNotConfirmedError,
+    );
+
+    expect(mockedSleep).toHaveBeenCalledTimes(2);
+    expect(mockClient.get).toHaveBeenCalledTimes(3);
   });
 });

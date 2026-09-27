@@ -9,6 +9,7 @@ import type {
   Sender,
   Currency,
   ShipmentTransaction,
+  CreateShipmentWithLabel,
 } from '../../types/shipment';
 
 import type {
@@ -204,7 +205,7 @@ export function mapShipmentFromApi(api: ApiShipmentResponse): Shipment {
   return {
     id: api.id,
     status: mapStatusFromApi(api.status),
-    trackingNumber: api.tracking_number,
+    trackingNumber: api.tracking_number!,
     service: mapServiceFromApi(api.service),
     reference: api.reference,
     comments: api.comments,
@@ -255,5 +256,18 @@ export function mapShipmentListFromApi(
     page: api.page,
     perPage: api.per_page,
     totalPages: api.total_pages,
+  };
+}
+
+// map shipment with label after it has been created
+export function mapCreateShipmentWithLabel(
+  apiShipment: Shipment,
+  label: Buffer,
+): CreateShipmentWithLabel {
+  return {
+    status: apiShipment.status,
+    service: apiShipment.service,
+    trackingNumber: apiShipment.trackingNumber!,
+    label: label,
   };
 }
