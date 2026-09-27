@@ -59,7 +59,7 @@ export function validateCreateShipment(req: CreateShipmentInput): void {
 
   // Locker services require target_point (passed via custom_attributes or address not needed)
   // Courier services require address
-  const isCourierService = req.service.includes('courier');
+  const isCourierService = req.service.startsWith('COURIER_');
   if (isCourierService && !req.receiver.address) {
     throw new InPostValidationError(
       'receiver.address is required for courier services',

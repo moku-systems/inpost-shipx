@@ -28,7 +28,7 @@ import type { ShipXConfig } from './types/config';
  *
  * const points = await inpost.points.list({ city: 'Gdańsk' });
  *
- * const tracking = await inpost.tracking.get('your-tracking-number');
+ * const tracking = await inpost.tracking.trackingEvents('your-tracking-number');
  * ```
  */
 export class InPostShipX {

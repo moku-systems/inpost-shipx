@@ -15,7 +15,6 @@
     "typescript",
     "unofficial"
   ],
-  "private": true,
   "author": {
     "name": "Moku Systems",
     "email": "support@moku-systems.com"
