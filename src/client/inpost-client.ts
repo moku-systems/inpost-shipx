@@ -79,7 +79,7 @@ export class InPostClient {
         let retryCount = 0;
         // Get current retry count from headers
         const rawRetryHeader = (config.headers as any)?.['x-retry-count'];
-        if (Boolean(rawRetryHeader)) {
+        if (rawRetryHeader) {
           const parsedRetryCountHeader = parseInt(rawRetryHeader, 10);
           retryCount = isNaN(parsedRetryCountHeader)
             ? 0
