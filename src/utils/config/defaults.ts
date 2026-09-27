@@ -32,3 +32,11 @@ export const RETRY_CONFIG = {
   retryableStatusCodes: [408, 429, 500, 502, 503, 504],
   retryableHttpMethods: IDEMPOTENT_HTTP_METHODS,
 } as const;
+
+/**
+ * Shipment status polling configuration
+ */
+export const SHIPMENT_CONFIG = {
+  maxStatusChecks: 5,
+  statusCheckRetryDelay: 500,
+} as const;

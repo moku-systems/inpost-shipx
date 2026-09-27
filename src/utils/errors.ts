@@ -68,3 +68,18 @@ export class InPostConfigError extends InPostError {
     Object.setPrototypeOf(this, InPostConfigError.prototype);
   }
 }
+
+export class ShipmentNotConfirmedError extends InPostError {
+  public readonly shipmentId: number;
+  public readonly maxStatusChecks: number;
+
+  constructor(shipmentId: number, maxStatusChecks: number) {
+    super(
+      `Shipment ${shipmentId} is not confirmed after ${maxStatusChecks} checks`,
+    );
+    this.name = 'ShipmentNotConfirmedError';
+    this.shipmentId = shipmentId;
+    this.maxStatusChecks = maxStatusChecks;
+    Object.setPrototypeOf(this, ShipmentNotConfirmedError.prototype);
+  }
+}

@@ -40,4 +40,15 @@ export type ShipXConfig = {
    * @default ['GET', 'HEAD', 'PUT', 'DELETE', 'OPTIONS']
    */
   retryableHttpMethods?: readonly string[]; // HTTP methods safe to retry (default: GET, HEAD, PUT, DELETE, OPTIONS)
+  /**
+   * Maximum number of shipment status checks when creating shipment with label.
+   * The SDK waits for status to become CONFIRMED before fetching a label.
+   * @default 5
+   */
+  maxShipmentStatusChecks?: number;
+  /**
+   * Delay in milliseconds between shipment status checks when creating shipment with label.
+   * @default 1000
+   */
+  shipmentStatusCheckRetryDelay?: number;
 };
