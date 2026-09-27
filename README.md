@@ -1,45 +1,91 @@
-# @moku-systems/inpost-shipx
+# InPost ShipX SDK
 
-Unofficial TypeScript SDK for the InPost ShipX API.
+<a href="https://badge.fury.io/js/%40moku-systems%2Finpost-shipx"><img src="https://badge.fury.io/js/%40moku-systems%2Finpost-shipx.svg" alt="npm version"></a>
 
-## Installation
+An unofficial **InPost ShipX API client** SDK for integrating with the Polish shipment market.  
+The SDK supports creating shipments, managing them, and downloading labels.
+
+## 📦 Installation
+
+Using npm:
 
 ```bash
 npm install @moku-systems/inpost-shipx
 ```
 
-## Requirements
+Or yarn:
 
-- Node.js >= 22
-- npm >= 11
+```bash
+yarn add @moku-systems/inpost-shipx
+```
 
-## Quick start
+## 🚀 Quick Start
 
-```ts
+### Initialize the client
+
+```typescript
 import { InPostShipX } from '@moku-systems/inpost-shipx';
 
 const inpost = new InPostShipX({
-  accessToken: process.env.INPOST_ACCESS_TOKEN!,
-  organizationId: process.env.INPOST_ORGANIZATION_ID!,
-  environment: 'sandbox',
+  accessToken: 'your-access-token',
+  organizationId: 'your-organization-id',
+  environment: 'sandbox', // or 'production'
 });
-
-const shipment = await inpost.shipments.create({
-  service: 'LOCKER_STANDARD',
-  parcels: [{ template: 'MEDIUM' }],
-  receiver: {
-    email: 'john@example.com',
-    phone: '+48123456789',
-  },
-});
-
-const points = await inpost.points.list({ city: 'Gdańsk' });
-const tracking = await inpost.tracking.trackingEvents(
-  shipment.trackingNumber || 'your-tracking-number',
-);
 ```
 
-## Public API
+---
+
+### 📦 Create a shipment
+
+```typescript
+const shipment = await inpost.shipments.create({
+  service: 'LOCKER_STANDARD',
+  receiver: {
+    email: 'john.doe@example.com',
+    phone: '+48123456789',
+  },
+  parcels: [{ template: 'MEDIUM' }],
+  customAttributes: { target_point: 'KRA010' },
+});
+
+console.log(`Shipment ID: ${shipment.id}, status: ${shipment.status}`);
+```
+
+---
+
+### 📑 Get a shipment label
+
+```typescript
+import { writeFileSync } from 'node:fs';
+
+const labelBuffer = await inpost.shipments.getLabel(12345, 'PDF');
+writeFileSync('shipment-12345.pdf', labelBuffer);
+
+console.log('Label saved to "shipment-12345.pdf"');
+```
+
+---
+
+### 🔍 Track a shipment
+
+```typescript
+const tracking = await inpost.tracking.trackingEvents('your-tracking-number');
+console.log(tracking.status, tracking.trackingNumber);
+```
+
+---
+
+## 🎛️ Configuration
+
+`ShipXConfig` required to initialize the client:
+
+- `accessToken` - Your InPost API access token.
+- `organizationId` - The organization ID in InPost.
+- `environment` - API environment: `sandbox` or `production`.
+- `timeout` - Optional request timeout (ms).
+- `maxRetries`, `retryDelay`, `retryableStatusCodes`, `retryableHttpMethods` - Optional retry behavior.
+
+## 🧩 API surface
 
 ### `shipments`
 
@@ -60,17 +106,19 @@ const tracking = await inpost.tracking.trackingEvents(
 - `trackingEvents(trackingId)`
 - `serviceHistory(trackingId)`
 
-## Error types
+## 🧪 Tests
 
-- `InPostError`
-- `InPostAPIError`
-- `InPostValidationError`
-- `InPostConfigError`
-- `ShipmentNotConfirmedError`
+```bash
+npm test
+```
 
-## Development
+## 🛠️ Development checks
 
 ```bash
 npm run validate
 npm run build
 ```
+
+## 📄 License
+
+This project is licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.
